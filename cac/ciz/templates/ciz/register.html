@@ -1,0 +1,59 @@
+{% extends 'layout/main.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title %}
+   Register | Citizen and Constitution
+{% endblock title %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}"> <!-- Use the same CSS as the login page -->
+
+<div class="login_form col-md-8 col-md-offset-2">
+  <form method="POST" class="border p-4 rounded" style="border: 1px solid black; margin: 4%; padding: 10%; border-radius: 1%;">
+    {% csrf_token %}
+    <h3>Register with</h3>
+    <div class="login_option">
+      <!-- Google button -->
+      <div class="option">
+        <a href="#">
+          <img src="{% static 'images/search.jpg' %}" alt="Google" />
+          <span>Google</span>
+        </a>
+      </div>
+      <!-- Apple button -->
+      <div class="option">
+        <a href="#">
+          <img src="{% static 'images/apple.jpg' %}" alt="Apple" />
+          <span>Apple</span>
+        </a>
+      </div>
+    </div>
+    
+    <!-- Login option separator -->
+    <p class="separator">
+      <span>or</span>
+    </p>
+    
+    <h3>Register</h3>
+    
+    <!-- Form fields rendered using crispy -->
+    <fieldset class="form-group">
+      {{ form|crispy }}
+    </fieldset>
+    
+    <!-- Register button -->
+    <center>
+      <button style="background: blue; padding: 2%; font-size: 2rem; color: white;" class="btn btn-outline-info" type="submit">
+        <span class="glyphicon glyphicon-check"></span> Sign Up
+      </button>
+    </center>
+    
+    <br />
+    
+    <p class="sign_up">Already have an account? 
+      <a href="{% url 'login' %}" style="text-decoration: none; color: blue; padding: 3%; cursor: pointer;">Log in</a>
+    </p>
+  </form>
+</div>
+{% endblock content %}

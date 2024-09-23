@@ -1,0 +1,51 @@
+{% extends 'layout/main.html' %}
+{% load static %}
+{% block title %}
+  All Laws | Citizen and Constitution
+{% endblock title %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/content.css' %}">   <!-- Link to CSS -->
+<!-- Font Awesome Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center">
+    <h3 class="text-center">EXPLORE CONTENTS</h3>
+  </div>
+  
+  <div class="language-box mt-3">
+    <div class="language-selector d-flex align-items-center">
+      <p class="mb-0">Choose Language:</p>
+      <div class="dropdown">
+        <button class="dropbtn">
+          {% if selected_language %}{{ selected_language.name }}{% else %}Language{% endif %}
+        </button>
+        <div class="dropdown-content">
+          <a href="?language=en" class="{% if selected_language.code == 'en' %}active{% endif %}">English</a>
+          <a href="?language=hi" class="{% if selected_language.code == 'hi' %}active{% endif %}">हिंदी</a>
+          <a href="?language=te" class="{% if selected_language.code == 'te' %}active{% endif %}">తెలుగు</a>
+          <a href="?language=ta" class="{% if selected_language.code == 'ta' %}active{% endif %}">தமிழ்</a>
+          <a href="?language=Ma" class="{% if selected_language.code == 'Ma' %}active{% endif %}">മലയാളം</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-list mt-4">
+    {% for law in laws %}
+    <a href="{% url 'content_detail' law.id %}?language={{ selected_language }}" class="card-item">
+      <span class="law-title">{{ law.title }}</span>
+      <p class="law-description">{{ law.sub }}</p>
+      <div class="arrow">
+        <i class="fas fa-arrow-right card-icon"></i>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+</div>
+{% endblock content %}
+
+
+
+
