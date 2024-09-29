@@ -3,15 +3,15 @@ from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
 
 class Language(models.Model):
-    code = models.CharField(max_length=10, unique=True)  # E.g., 'en', 'hi'
-    name = models.CharField(max_length=100)  # E.g., 'English', 'Hindi'
+    code = models.CharField(max_length=10, unique=True)  
+    name = models.CharField(max_length=100) 
 
     def __str__(self):
         return self.name
 
 class Law(models.Model):
     title = models.CharField(max_length=200)
-    language = models.ForeignKey(Language, on_delete=models.CASCADE)  # Connect with language
+    language = models.ForeignKey(Language, on_delete=models.CASCADE)  
     image = models.URLField(blank=True, null=True)
     video = models.URLField(blank=True, null=True)
     sub = models.TextField()

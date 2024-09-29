@@ -13,6 +13,7 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth.decorators import login_required
 from .forms import ProfileUpdateForm
+from django.utils.translation import gettext as _
 
  
 
@@ -40,27 +41,27 @@ def register(request):
         form = UserRegisterForm()
     return render(request, 'ciz/register.html', {'form': form, 'title': 'Register Here'})
   
-################ login forms################################################### 
+
 def Login(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)
         if user is not None:
-            auth_login(request, user)  # Correct function to log in the user
+            auth_login(request, user) 
             messages.success(request, f'Welcome {username}!')
             return redirect('index')
         else:
             messages.info(request, 'Account does not exist or password is incorrect.')
     form = AuthenticationForm()
     return render(request, 'ciz/login.html', {'form': form, 'title': 'Log In'})
-
+@login_required
 def custom_logout(request):
-    logout(request)  # Log out the user
+    logout(request) 
     messages.success(request, 'You have been logged out successfully.')
     return redirect('index') 
 
-
+@login_required
 def content(request):
     selected_language_code = request.GET.get('language', 'en')
     language = get_object_or_404(Language, code=selected_language_code)
@@ -72,7 +73,7 @@ def content(request):
         'languages': languages,
         'selected_language': language,  
     })
-
+@login_required
 def content_detail(request, id):
     law = get_object_or_404(Law, id=id)
     return render(request, 'ciz/content_detail.html', {'law': law})
@@ -94,16 +95,16 @@ def update_profile(request):
         form = UserChangeForm(instance=request.user)
     
     return render(request, 'ciz/user_update.html', {'form': form})
-
+@login_required
 def about_us(request):
     return render(request, 'ciz/aboutus.html')
-
+@login_required
 def quizzes(request, id):
     law = get_object_or_404(Law, id=id)
     quizzes = Quiz.objects.filter(law=law)
     return render(request, 'ciz/quizz.html', {'law': law, 'quizzes': quizzes})
 
-
+@login_required
 def submit_quiz(request):
     if request.method == 'POST':
         total_points = 0
@@ -172,8 +173,8 @@ def update_Profile(request):
     return render(request, 'ciz/update_Profile.html', {'form': form})
 
 # Correct - gettext called within a function
-from django.utils.translation import gettext as _
 
+@login_required
 def some_view(request):
     context = {
         'message': _("This is a translatable message"),
